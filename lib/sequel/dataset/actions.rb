@@ -1,3 +1,4 @@
+require 'csv'
 module Sequel
   class Dataset
     # ---------------------
@@ -346,16 +347,15 @@ module Sequel
     # first line. You can turn that off by passing false as the 
     # include_column_titles argument.
     #
-    # This does not use a CSV library or handle quoting of values in
-    # any way.  If any values in any of the rows could include commas or line
-    # endings, you shouldn't use this.
     def to_csv(include_column_titles = true)
       n = naked
       cols = n.columns
-      csv = ''
-      csv << "#{cols.join(COMMA_SEPARATOR)}\r\n" if include_column_titles
-      n.each{|r| csv << "#{cols.collect{|c| r[c]}.join(COMMA_SEPARATOR)}\r\n"}
-      csv
+      out = ''
+      CSV::Writer.generate(out,fs=COMMA_SEPARATOR) do |csv|
+        csv << cols if include_column_titles
+        n.each{|r| csv << cols.collect{|c| r[c]}}
+      end
+      out
     end
     
     # Returns a hash with one column used as key and another used as value.
