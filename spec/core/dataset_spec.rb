@@ -2891,17 +2891,17 @@ context "Dataset#to_csv" do
     
     @ds = @c.new(nil).from(:items)
     @ds.columns = [:a, :b, :c]
-    @ds.data = [ {:a=>1, :b=>2, :c=>3}, {:a=>4, :b=>5, :c=>6}, {:a=>7, :b=>8, :c=>9} ]
+    @ds.data = [ {:a=>1, :b=>2, :c=>3}, {:a=>4, :b=>5, :c=>6}, {:a=>7, :b=>8, :c=>"9, 10"} ]
   end
   
   specify "should format a CSV representation of the records" do
     @ds.to_csv.should ==
-      "a, b, c\n1, 2, 3\n4, 5, 6\n7, 8, 9\n"
+      "a, b, c\n1, 2, 3\n4, 5, 6\n7, 8, \"9, 10\"\n"
   end
 
   specify "should exclude column titles if so specified" do
     @ds.to_csv(false).should ==
-      "1, 2, 3\n4, 5, 6\n7, 8, 9\n"
+      "1, 2, 3\n4, 5, 6\n7, 8, \"9, 10\"\n"
   end
 end
 
