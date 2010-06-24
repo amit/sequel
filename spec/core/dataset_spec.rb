@@ -2896,12 +2896,12 @@ context "Dataset#to_csv" do
   
   specify "should format a CSV representation of the records" do
     @ds.to_csv.should ==
-      "a, b, c\r\n1, 2, 3\r\n4, 5, 6\r\n7, 8, 9\r\n"
+      "a, b, c\n1, 2, 3\n4, 5, 6\n7, 8, 9\n"
   end
 
   specify "should exclude column titles if so specified" do
     @ds.to_csv(false).should ==
-      "1, 2, 3\r\n4, 5, 6\r\n7, 8, 9\r\n"
+      "1, 2, 3\n4, 5, 6\n7, 8, 9\n"
   end
 end
 
